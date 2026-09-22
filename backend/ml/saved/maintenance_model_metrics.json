@@ -1,0 +1,88 @@
+{
+  "accuracy": 0.875,
+  "precision_weighted": 0.8799,
+  "recall_weighted": 0.875,
+  "f1_weighted": 0.8708,
+  "confusion_matrix": [
+    [
+      33,
+      4,
+      19
+    ],
+    [
+      0,
+      147,
+      13
+    ],
+    [
+      2,
+      12,
+      170
+    ]
+  ],
+  "class_labels": [
+    "High",
+    "Low",
+    "Medium"
+  ],
+  "classification_report": {
+    "High": {
+      "precision": 0.9428571428571428,
+      "recall": 0.5892857142857143,
+      "f1-score": 0.7252747252747253,
+      "support": 56.0
+    },
+    "Low": {
+      "precision": 0.901840490797546,
+      "recall": 0.91875,
+      "f1-score": 0.9102167182662538,
+      "support": 160.0
+    },
+    "Medium": {
+      "precision": 0.8415841584158416,
+      "recall": 0.9239130434782609,
+      "f1-score": 0.8808290155440415,
+      "support": 184.0
+    },
+    "accuracy": 0.875,
+    "macro avg": {
+      "precision": 0.89542726402351,
+      "recall": 0.810649585921325,
+      "f1-score": 0.8387734863616735,
+      "support": 400.0
+    },
+    "weighted avg": {
+      "precision": 0.8798649091903056,
+      "recall": 0.875,
+      "f1-score": 0.8708064959952222,
+      "support": 400.0
+    }
+  },
+  "feature_set": [
+    "distance_km",
+    "load_kg",
+    "mileage",
+    "capacity_kg",
+    "load_ratio",
+    "route_enc",
+    "weather_enc",
+    "traffic_enc",
+    "vehicle_type_enc",
+    "fuel_type_enc",
+    "temperature",
+    "humidity",
+    "wind_kmph",
+    "delay_min",
+    "avg_speed",
+    "vehicle_age_years",
+    "total_km",
+    "service_count",
+    "breakdown_count",
+    "maintenance_cost_total",
+    "days_since_service",
+    "previous_breakdown",
+    "fuel_efficiency_drop_pct"
+  ],
+  "n_train": 1600,
+  "n_test": 400
+}

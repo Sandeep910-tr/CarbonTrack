@@ -1,0 +1,330 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, sans-serif;
+  --font-body: "Inter", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-bg-base: #0A0D16;
+  --color-bg-panel: #131a2b;
+  --color-ink: #E7EAF3;
+  --color-ink-dim: #8891A8;
+  --color-ink-faint: #7E88A2; /* WCAG AA fix: was #5B6478 (2.9:1 on panel bg, fails AA)
+    - this passes 4.5:1+ against both --color-bg-base and --color-bg-panel while
+    staying visually a step below --color-ink-dim. See HARDENING_CHANGELOG.md. */
+
+  --color-amber: #F0B429;
+  --color-amber-soft: #F7D486;
+  --color-indigo: #6E6BFF;
+  --color-indigo-soft: #A5A3FF;
+  --color-danger: #FF6B6B;
+  --color-success: #4ADE80;
+  --color-cyan: #22D3EE;
+  --color-cyan-soft: #67E8F9;
+}
+
+/* ---------------------------------------------------------------------
+   Global stacking (z-index) scale.
+   One source of truth for every layer in the app — components reference
+   these via Tailwind arbitrary values, e.g. z-[var(--z-modal)], instead
+   of hardcoding numbers. Keeps the hierarchy consistent and makes it
+   possible to reason about "what's above what" from one place instead of
+   hunting through every component for a stray z-[99999].
+   ------------------------------------------------------------------- */
+:root {
+  --z-base: 0;           /* normal page content */
+  --z-card: 1;           /* cards sitting slightly above base content */
+  --z-sticky-table: 10;  /* sticky table headers/columns */
+  --z-sticky-ui: 20;     /* other sticky-positioned UI (e.g. step rail) */
+  --z-sidebar: 30;       /* fixed desktop sidebar */
+  --z-header: 40;        /* mobile top bar / offline banner */
+  --z-ai-assistant: 90;  /* floating AI assistant button + panel */
+  --z-dropdown: 100;     /* generic dropdowns (language selector, menus) */
+  --z-notification: 100; /* notification bell panel */
+  --z-popover: 200;       /* tooltips/popovers above dropdowns */
+  --z-toast: 300;        /* toast stack */
+  --z-modal-overlay: 400;/* modal backdrop */
+  --z-modal: 500;        /* modal content */
+  --z-critical-alert: 550; /* safety-critical alert modal, above all else */
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+html {
+  overflow-y: auto;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+body {
+  position: relative;
+  background:
+    radial-gradient(560px circle at 12% -8%, rgba(240,180,41,0.16), transparent 60%),
+    radial-gradient(680px circle at 102% 8%, rgba(110,107,255,0.18), transparent 55%),
+    radial-gradient(620px circle at 55% 105%, rgba(74,222,128,0.10), transparent 55%),
+    radial-gradient(ellipse 120% 80% at 50% -10%, #1a2340 0%, #0A0D16 55%),
+    #0A0D16;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Slow-drifting colour blobs sitting behind everything so glass panels have
+   something soft and colourful to refract — this is most of what makes
+   backdrop-blur read as "glass" instead of just a grey blur. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(480px circle at 20% 25%, rgba(240,180,41,0.10), transparent 60%),
+    radial-gradient(520px circle at 82% 70%, rgba(110,107,255,0.12), transparent 60%);
+  animation: aurora-drift 24s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(2%, -3%, 0) scale(1.06); }
+}
+
+::selection {
+  background: var(--color-amber);
+  color: #0A0D16;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a3350; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #3a4570; }
+
+/* Sidebar nav: thinner, more subtle variant of the scrollbar above — only
+   shows up once the menu items exceed the sidebar's available height. */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3350 transparent;
+}
+.sidebar-scroll::-webkit-scrollbar { width: 5px; }
+.sidebar-scroll::-webkit-scrollbar-thumb { background: #2a3350; border-radius: 10px; }
+.sidebar-scroll::-webkit-scrollbar-thumb:hover { background: #3a4570; }
+
+.glass {
+  background: linear-gradient(165deg, rgba(255,255,255,0.07), rgba(255,255,255,0.015) 60%);
+  border: 1px solid rgba(255,255,255,0.09);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.09),
+    0 10px 34px -14px rgba(0,0,0,0.55);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+}
+
+.glass-strong {
+  background: linear-gradient(165deg, rgba(255,255,255,0.10), rgba(255,255,255,0.025) 60%);
+  border: 1px solid rgba(255,255,255,0.13);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.14),
+    0 16px 44px -16px rgba(0,0,0,0.6);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+}
+
+/* Opt-in hover lift for glass panels that act like buttons/links, e.g. clickable cards. */
+.glass-interactive {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.glass-interactive:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.2);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.16),
+    0 20px 50px -16px rgba(0,0,0,0.65);
+}
+
+/* Solid (not translucent) dark panel for floating UI that must stay
+   readable over busy content behind it — e.g. the Fleet AI Assistant over
+   the Live Fleet map/cards. Unlike .glass/.glass-strong (which are
+   intentionally translucent for surface cards sitting on the page
+   background), this uses an opaque-ish base color (~96-98%) so text,
+   inputs, and buttons inside it never fight with whatever's underneath.
+   The root cause of the original visibility issue was .glass-strong's very
+   low background opacity combined with backdrop-filter blur — enough to
+   tint and soften what's behind, not enough to guarantee contrast against
+   it — so this class deliberately avoids relying on transparency at all. */
+.panel-solid {
+  background: linear-gradient(165deg, rgba(19,26,43,0.98), rgba(10,13,22,0.96) 60%);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.08),
+    0 20px 50px -14px rgba(0,0,0,0.75);
+  backdrop-filter: saturate(140%);
+  -webkit-backdrop-filter: saturate(140%);
+}
+
+.text-gradient-amber {
+  background: linear-gradient(90deg, #F0B429, #F7D486, #F0B429);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+@keyframes shimmer {
+  to { background-position: -200% center; }
+}
+
+/* Section 33/38: purple->cyan "AI dashboard" accent, reserved for the
+   Active Trip screen (the one surface the spec calls out for the heaviest
+   futuristic treatment) rather than applied app-wide, so it reads as a
+   deliberate highlight instead of a full re-skin. A 2px gradient rule plus
+   a soft ambient glow underneath - restrained, not a neon border.
+
+   `position: relative` here is only a fallback so the ::before gradient
+   bar has something to anchor to on elements that don't set their own
+   position. This must live inside @layer components: plain/unlayered CSS
+   always wins over ANY layered rule regardless of specificity (that's how
+   CSS cascade layers work), and Tailwind's own utilities — including
+   `.fixed`, `.absolute`, `.sticky` — compile into `@layer utilities`. Left
+   unlayered, this rule silently beat `fixed` on every element that used
+   both classes together (e.g. it turned the fixed sidebar into an in-flow
+   element that scrolled away with the page) no matter how the selector
+   was written. Placing it in @layer components — which Tailwind always
+   orders before @layer utilities — guarantees any real positioning
+   utility on the same element wins, every time. */
+@layer components {
+  .trip-console-trim {
+    position: relative;
+  }
+  .trip-console-trim::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-indigo) 20%, var(--color-cyan) 50%, var(--color-indigo) 80%, transparent);
+    opacity: 0.8;
+  }
+}
+
+.glow-chip-cyan {
+  background: linear-gradient(135deg, rgba(34,211,238,0.14), rgba(110,107,255,0.10));
+  border: 1px solid rgba(34,211,238,0.35);
+  box-shadow: 0 0 16px -4px rgba(34,211,238,0.35);
+}
+
+.glow-chip-green {
+  background: linear-gradient(135deg, rgba(74,222,128,0.16), rgba(74,222,128,0.06));
+  border: 1px solid rgba(74,222,128,0.4);
+  box-shadow: 0 0 16px -4px rgba(74,222,128,0.4);
+}
+
+.hud-pill {
+  background: linear-gradient(135deg, rgba(19,26,43,0.85), rgba(19,26,43,0.65));
+  border: 1px solid rgba(110,107,255,0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Signature motif: a dashed "road" with a travelling waypoint dot, used as a
+   section divider on the marketing site — ties the UI chrome back to the
+   product's own route-line visual instead of a generic hairline rule. */
+.road-divider {
+  position: relative;
+  height: 1px;
+  background-image: linear-gradient(90deg, transparent, rgba(240,180,41,0.35) 15%, rgba(240,180,41,0.35) 85%, transparent);
+}
+.road-divider::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-amber);
+  box-shadow: 0 0 12px 2px rgba(240,180,41,0.6);
+  animation: road-travel 5s ease-in-out infinite;
+}
+@keyframes road-travel {
+  0%, 100% { left: 15%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  50% { left: 85%; }
+}
+
+.float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Entrance animation applied to every glass card by default — a small
+   fade+rise on mount so pages feel like they're settling into place rather
+   than just popping in, without needing per-page motion code. */
+.card-enter {
+  animation: card-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* Staggers a row/grid of cards instead of having them all fade in at once —
+   applies automatically to any direct grid children, no per-page JS needed. */
+.grid > .card-enter:nth-child(1) { animation-delay: 0s; }
+.grid > .card-enter:nth-child(2) { animation-delay: 0.06s; }
+.grid > .card-enter:nth-child(3) { animation-delay: 0.12s; }
+.grid > .card-enter:nth-child(4) { animation-delay: 0.18s; }
+.grid > .card-enter:nth-child(5) { animation-delay: 0.24s; }
+.grid > .card-enter:nth-child(n+6) { animation-delay: 0.3s; }
+
+.route-dash {
+  stroke-dasharray: 6 10;
+  animation: dash 1.6s linear infinite;
+}
+@keyframes dash {
+  to { stroke-dashoffset: -32; }
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Google Places Autocomplete dropdown — dark-themed to match the app instead
+   of Google's default white panel. .pac-container is rendered by the Maps JS
+   API directly into <body>, outside React's control, so this has to be a
+   plain global CSS override. */
+.pac-container {
+  background-color: #14171f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  margin-top: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  font-family: inherit;
+}
+.pac-item {
+  color: #cfd3dc;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  font-size: 13px;
+}
+.pac-item:first-child { border-top: none; }
+.pac-item:hover, .pac-item-selected {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+.pac-item-query { color: #f4f1ea; }
+.pac-matched { color: #F0B429; }
+.pac-icon { display: none; }
