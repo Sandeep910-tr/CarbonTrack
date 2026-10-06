@@ -43,7 +43,7 @@ export default function AdminAuditLogs() {
         </GlassCard>
       ) : (
         <>
-          <GlassCard className="overflow-hidden">
+          <GlassCard className="overflow-x-auto p-0">
             <table className="w-full text-left text-xs">
               <thead className="border-b border-white/10 text-ink-faint">
                 <tr>

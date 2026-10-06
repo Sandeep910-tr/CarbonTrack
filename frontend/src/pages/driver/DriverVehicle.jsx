@@ -27,8 +27,8 @@ export default function DriverVehicle() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
-      <GlassCard className="p-6">
-        <div className="flex items-center justify-between">
+      <GlassCard className="p-4 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="rounded-xl bg-amber/15 p-3 text-amber"><Truck size={22} /></div>
             <div>

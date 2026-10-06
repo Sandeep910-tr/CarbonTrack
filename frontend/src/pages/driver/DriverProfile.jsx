@@ -50,20 +50,22 @@ export default function DriverProfile() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
-      <GlassCard className="p-6">
-        <div className="flex items-center gap-4">
-          <div className="relative shrink-0">
-            <EcoScoreRing score={profile.eco_score} size={72} strokeWidth={7} />
-            <span className="absolute inset-0 flex items-center justify-center font-display text-lg font-semibold text-ink">
-              {Math.round(profile.eco_score)}
-            </span>
-          </div>
-          <div className="flex-1">
-            <h1 className="font-display text-xl font-semibold text-ink">{profile.name}</h1>
-            <p className="flex items-center gap-2 text-xs text-ink-dim">
-              <IdCard size={12} /> {profile.driver_code}
-              <Badge tone={profile.status === "Approved" ? "success" : "warning"}>{profile.status}</Badge>
-            </p>
+      <GlassCard className="p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+            <div className="relative shrink-0">
+              <EcoScoreRing score={profile.eco_score} size={64} strokeWidth={6} />
+              <span className="absolute inset-0 flex items-center justify-center font-display text-base sm:text-lg font-semibold text-ink">
+                {Math.round(profile.eco_score)}
+              </span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <h1 className="font-display text-lg sm:text-xl font-semibold text-ink truncate">{profile.name}</h1>
+              <p className="flex flex-wrap items-center gap-2 text-xs text-ink-dim">
+                <span className="flex items-center gap-1"><IdCard size={12} /> {profile.driver_code}</span>
+                <Badge tone={profile.status === "Approved" ? "success" : "warning"}>{profile.status}</Badge>
+              </p>
+            </div>
           </div>
           <Button
             variant="ghost"
@@ -72,6 +74,7 @@ export default function DriverProfile() {
               setIsEditing(!isEditing);
               setForm(profile);
             }}
+            className="self-start sm:self-auto shrink-0"
           >
             {isEditing ? <X size={14} /> : <Edit2 size={14} />}
           </Button>
@@ -107,7 +110,7 @@ export default function DriverProfile() {
         </div>
       </GlassCard>
 
-      <GlassCard className="p-6">
+      <GlassCard className="p-4 sm:p-6">
         <div className="flex items-center gap-2">
           <Award size={16} className="text-amber" />
           <h3 className="font-display text-sm font-semibold text-ink">{t("driverProfile.ecoCertificate", "Eco-Driving Certificate")}</h3>

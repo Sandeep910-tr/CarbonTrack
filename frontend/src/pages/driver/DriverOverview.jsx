@@ -70,25 +70,25 @@ export default function DriverOverview() {
 
   return (
     <div className="space-y-6">
-      <GlassCard strong className="trip-console-trim flex flex-wrap items-center justify-between gap-4 p-6">
+      <GlassCard strong className="trip-console-trim flex flex-wrap items-center justify-between gap-4 p-4 sm:p-6">
         <div>
-          <h1 className="font-display text-2xl font-semibold text-ink">{t("driverOverview.welcomeBack", { name: profile.name.split(" ")[0] })}</h1>
+          <h1 className="font-display text-xl sm:text-2xl font-semibold text-ink">{t("driverOverview.welcomeBack", { name: profile.name.split(" ")[0] })}</h1>
           <p className="text-sm text-ink-dim">{profile.driver_code} · {profile.status}</p>
         </div>
         <Link to="/driver/new-trip"><Button variant="primary"><PlusCircle size={16} /> {t("driverOverview.startNewTrip")}</Button></Link>
       </GlassCard>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <GlassCard interactive className="p-5">
-          <div className="flex items-center gap-4">
+        <GlassCard interactive className="p-4 sm:p-5">
+          <div className="flex items-center gap-3 sm:gap-4">
             <div className="relative shrink-0">
-              <EcoScoreRing score={profile.eco_score} size={72} strokeWidth={7} />
-              <span className="absolute inset-0 flex items-center justify-center font-display text-lg font-semibold text-ink">
+              <EcoScoreRing score={profile.eco_score} size={64} strokeWidth={6} />
+              <span className="absolute inset-0 flex items-center justify-center font-display text-base sm:text-lg font-semibold text-ink">
                 {Math.round(profile.eco_score)}
               </span>
             </div>
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-ink-dim">{t("driverOverview.ecoScore")}</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-medium uppercase tracking-wide text-ink-dim break-words">{t("driverOverview.ecoScore")}</p>
               <p className="mt-1 text-sm text-ink-dim">/100</p>
             </div>
           </div>
@@ -97,7 +97,7 @@ export default function DriverOverview() {
         <StatCard label={t("driverOverview.co2SavedTracked")} value={totalCo2.toFixed(1)} unit="kg" icon={Leaf} accent="success" />
       </div>
 
-      <GlassCard className="p-6">
+      <GlassCard className="p-4 sm:p-6">
         <div className="flex items-center justify-between">
           <h2 className="font-display text-base font-semibold text-ink">{t("driverOverview.ecoTrend")}</h2>
           <div className="flex items-center gap-1.5 text-xs text-ink-dim"><TrendingDown size={14} className="text-success" /> {t("driverOverview.co2PerTrip")}</div>
@@ -133,7 +133,7 @@ export default function DriverOverview() {
       </GlassCard>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <GlassCard className="p-6 lg:col-span-2">
+        <GlassCard className="p-4 sm:p-6 lg:col-span-2">
           <h2 className="font-display text-base font-semibold text-ink">{t("driverOverview.achievements")}</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {badges.map((b) => (
@@ -141,19 +141,19 @@ export default function DriverOverview() {
                 key={b.key}
                 className={`flex items-start gap-3 rounded-xl border p-3 ${b.unlocked ? "border-amber/30 bg-amber/[0.06]" : "border-white/10 bg-white/[0.02]"}`}
               >
-                <div className={`rounded-lg p-2 ${b.unlocked ? "bg-amber/15 text-amber" : "bg-white/[0.04] text-ink-faint"}`}>
+                <div className={`rounded-lg p-2 shrink-0 ${b.unlocked ? "bg-amber/15 text-amber" : "bg-white/[0.04] text-ink-faint"}`}>
                   {b.unlocked ? <b.icon size={16} /> : <Lock size={16} />}
                 </div>
-                <div>
+                <div className="min-w-0 flex-1">
                   <p className={`text-sm font-medium ${b.unlocked ? "text-ink" : "text-ink-dim"}`}>{t(`driverOverview.badges.${b.key}.label`)}</p>
-                  <p className="text-[11px] text-ink-faint">{t(`driverOverview.badges.${b.key}.desc`)}</p>
+                  <p className="text-[11px] text-ink-faint break-words">{t(`driverOverview.badges.${b.key}.desc`)}</p>
                 </div>
               </div>
             ))}
           </div>
         </GlassCard>
 
-        <GlassCard className="p-6">
+        <GlassCard className="p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-base font-semibold text-ink">{t("driverOverview.recentActivity")}</h2>
             <Link to="/driver/history" className="flex items-center gap-1 text-xs text-ink-dim hover:text-amber">
@@ -164,10 +164,10 @@ export default function DriverOverview() {
             <div className="mt-4 space-y-3">
               {recentActivity.map((t2) => (
                 <div key={t2.id} className="flex items-start gap-3 border-b border-white/[0.06] pb-3 last:border-0 last:pb-0">
-                  <div className="mt-0.5 rounded-lg bg-white/[0.04] p-1.5 text-ink-dim"><Clock size={13} /></div>
+                  <div className="mt-0.5 rounded-lg bg-white/[0.04] p-1.5 text-ink-dim shrink-0"><Clock size={13} /></div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm text-ink">{t2.source} → {t2.destination}</p>
-                    <div className="mt-0.5 flex items-center gap-2 text-[11px] text-ink-faint">
+                    <div className="mt-0.5 flex flex-wrap items-center gap-2 text-[11px] text-ink-faint">
                       <span>{new Date(t2.created_at).toLocaleDateString()}</span>
                       <Badge tone={t2.status === "Completed" ? "success" : t2.status === "Ongoing" ? "indigo" : "neutral"}>
                         {STATUS_KEY[t2.status] ? t(STATUS_KEY[t2.status]) : t2.status}
@@ -188,12 +188,12 @@ export default function DriverOverview() {
       </div>
 
       {certStatus && (
-        <GlassCard className={`p-6 ${certStatus.eligible ? "border-amber/30" : ""}`}>
-          <div className="flex items-center gap-4">
-            <div className={`rounded-xl p-3 ${certStatus.eligible ? "bg-amber/15 text-amber" : "bg-white/[0.04] text-ink-dim"}`}>
+        <GlassCard className={`p-4 sm:p-6 ${certStatus.eligible ? "border-amber/30" : ""}`}>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <div className={`rounded-xl p-3 shrink-0 self-start sm:self-auto ${certStatus.eligible ? "bg-amber/15 text-amber" : "bg-white/[0.04] text-ink-dim"}`}>
               <Award size={22} />
             </div>
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
               <h2 className="font-display text-base font-semibold text-ink">{t("driverOverview.certTitle")}</h2>
               {certStatus.eligible ? (
                 <p className="text-xs text-ink-dim">{t("driverOverview.certEligible", { score: certStatus.eco_score, threshold: certStatus.threshold })}</p>
@@ -207,7 +207,7 @@ export default function DriverOverview() {
               )}
             </div>
             {certStatus.eligible && (
-              <Button variant="primary" onClick={downloadCertificate} disabled={downloading}>
+              <Button variant="primary" onClick={downloadCertificate} disabled={downloading} className="shrink-0 self-start sm:self-auto">
                 <Download size={15} /> {downloading ? t("driverOverview.generating") : t("driverOverview.download")}
               </Button>
             )}
@@ -215,16 +215,18 @@ export default function DriverOverview() {
         </GlassCard>
       )}
 
-      <GlassCard className="p-6">
+      <GlassCard className="p-4 sm:p-6">
         <h2 className="font-display text-base font-semibold text-ink">{t("driverOverview.assignedVehicle")}</h2>
         {profile.vehicle ? (
-          <div className="mt-4 flex items-center gap-4">
-            <div className="rounded-xl bg-white/[0.04] p-3 text-amber"><Truck size={22} /></div>
-            <div className="flex-1">
-              <p className="font-medium text-ink">{profile.vehicle.vehicle_no}</p>
-              <p className="text-xs text-ink-dim">{profile.vehicle.vehicle_type} · {profile.vehicle.fuel_type} · {profile.vehicle.mileage} km/l</p>
+          <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <div className="rounded-xl bg-white/[0.04] p-3 text-amber shrink-0 self-start sm:self-auto"><Truck size={22} /></div>
+            <div className="min-w-0 flex-1">
+              <p className="font-medium text-ink truncate">{profile.vehicle.vehicle_no}</p>
+              <p className="text-xs text-ink-dim break-words">{profile.vehicle.vehicle_type} · {profile.vehicle.fuel_type} · {profile.vehicle.mileage} km/l</p>
             </div>
-            <Badge tone={profile.vehicle.health_score > 75 ? "success" : "warning"}>{t("driverOverview.health")} {profile.vehicle.health_score}%</Badge>
+            <span className="shrink-0 self-start sm:self-auto">
+              <Badge tone={profile.vehicle.health_score > 75 ? "success" : "warning"}>{t("driverOverview.health")} {profile.vehicle.health_score}%</Badge>
+            </span>
           </div>
         ) : (
           <p className="mt-3 text-sm text-ink-dim">{t("driverOverview.noVehicleAssigned")}</p>

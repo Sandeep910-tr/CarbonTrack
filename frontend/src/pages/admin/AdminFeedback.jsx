@@ -60,7 +60,7 @@ export default function AdminFeedback() {
                 </div>
                 <Badge tone={EXPERIENCE_TONE[f.experience] || "neutral"}>{f.experience}</Badge>
               </div>
-              <div className="mt-3 grid grid-cols-3 gap-3 text-xs">
+              <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 text-xs">
                 <div>
                   <p className="text-ink-faint">{t("adminFeedback.overall", "Overall")}</p>
                   <Stars value={f.overall_rating} />

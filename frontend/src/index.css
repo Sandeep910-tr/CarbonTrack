@@ -157,13 +157,48 @@ body::before {
    tint and soften what's behind, not enough to guarantee contrast against
    it — so this class deliberately avoids relying on transparency at all. */
 .panel-solid {
-  background: linear-gradient(165deg, rgba(19,26,43,0.98), rgba(10,13,22,0.96) 60%);
-  border: 1px solid rgba(255,255,255,0.14);
+  background-color: #0c101d;
+  background: linear-gradient(165deg, #131a2b, #0a0d16 60%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
-    inset 0 1px 0 0 rgba(255,255,255,0.08),
-    0 20px 50px -14px rgba(0,0,0,0.75);
-  backdrop-filter: saturate(140%);
-  -webkit-backdrop-filter: saturate(140%);
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    0 20px 50px -14px rgba(0, 0, 0, 0.75);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Sidebar drawer surface: 100% opaque on mobile (< 768px) so dashboard content
+   never shows through; restores original desktop glass-strong styling at >= 768px. */
+.sidebar-drawer-surface {
+  background-color: #0a0d16 !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+  isolation: isolate;
+  border-right: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+}
+
+.sidebar-drawer-surface::before,
+.sidebar-drawer-surface::after {
+  content: none !important;
+}
+
+@media (min-width: 768px) {
+  .sidebar-drawer-surface {
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.025) 60%) !important;
+    background-color: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.13) !important;
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.14),
+      0 16px 44px -16px rgba(0, 0, 0, 0.60) !important;
+    backdrop-filter: blur(28px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(160%) !important;
+    mix-blend-mode: normal !important;
+    isolation: auto;
+  }
 }
 
 .text-gradient-amber {

@@ -150,7 +150,7 @@ export default function AdminLiveFleet() {
             {t("adminLiveFleet.liveAutoRefresh")}
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => { hasFitBoundsRef.current = false; if (window.google && mapObjRef.current) fitToFleet(window.google, trips); }}
             className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-ink-dim hover:border-cyan/40 hover:text-cyan-soft"
@@ -177,15 +177,15 @@ export default function AdminLiveFleet() {
           </div>
           <div className="space-y-2">
             {deviations.map((dv) => (
-              <div key={dv.id} className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 text-xs">
-                <div>
+              <div key={dv.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 text-xs">
+                <div className="min-w-0">
                   <span className="font-medium text-ink">{dv.trip_code}</span>
                   <span className="text-ink-dim"> · {dv.driver_name} {t("adminLiveFleet.offRouteBy", { meters: dv.deviation_m })}</span>
                   <span className="ml-2 text-ink-faint">{new Date(dv.detected_at).toLocaleTimeString()}</span>
                 </div>
                 <button
                   onClick={() => resolveDeviation(dv.id)}
-                  className="flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-[11px] text-ink-dim hover:border-success/40 hover:text-success"
+                  className="self-start sm:self-auto flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-[11px] text-ink-dim hover:border-success/40 hover:text-success shrink-0"
                 >
                   <Check size={12} /> {t("adminLiveFleet.resolve")}
                 </button>
@@ -220,7 +220,7 @@ export default function AdminLiveFleet() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {trips.map((t2) => (
-            <GlassCard key={t2.trip_id} className="p-5">
+            <GlassCard key={t2.trip_id} className="p-4 sm:p-5">
               <div className="flex items-center justify-between">
                 <div className={`flex items-center gap-2 text-xs ${t2.live ? "text-[#4285F4]" : "text-success"}`}>
                   <Radio size={14} className="animate-pulse" /> {t2.live ? t("adminLiveFleet.liveGps") : t("adminLiveFleet.movingEstimated")}

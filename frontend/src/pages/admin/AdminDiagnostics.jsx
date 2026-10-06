@@ -37,13 +37,13 @@ export default function AdminDiagnostics() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-      <GlassCard strong className="p-6">
-        <div className="flex items-center justify-between">
+      <GlassCard strong className="p-4 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <Stethoscope size={20} className="text-amber" />
+            <Stethoscope size={20} className="text-amber shrink-0" />
             <p className="text-xs text-ink-dim">{t("adminDiagnostics.apiDiagnosticsDesc")}</p>
           </div>
-          <Button variant="primary" onClick={run} disabled={loading}>
+          <Button variant="primary" onClick={run} disabled={loading} className="shrink-0">
             {loading ? <Loader2 size={15} className="animate-spin" /> : <Stethoscope size={15} />}
             {loading ? t("adminDiagnostics.testing") : t("adminDiagnostics.runDiagnostics")}
           </Button>

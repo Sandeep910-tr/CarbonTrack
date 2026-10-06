@@ -64,7 +64,7 @@ export default function AdminVehicles() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-ink-dim">{vehicles.length} {t("adminVehicles.vehiclesInFleet")}</p>
         <Button variant="primary" onClick={() => setShowForm((s) => !s)}><Plus size={15} /> {t("adminVehicles.addVehicle")}</Button>
       </div>

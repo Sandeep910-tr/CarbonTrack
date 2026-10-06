@@ -49,9 +49,9 @@ export default function ChatAssistant() {
         onClick={() => setOpen((o) => !o)}
         whileTap={{ scale: 0.94 }}
         aria-label={t("ai.assistant")}
-        className="fixed bottom-6 right-6 z-[var(--z-ai-assistant)] flex h-14 w-14 items-center justify-center rounded-full bg-amber text-[#12100a] shadow-[0_8px_24px_-6px_rgba(240,180,41,0.6)]"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[var(--z-ai-assistant)] flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-amber text-[#12100a] shadow-[0_8px_24px_-6px_rgba(240,180,41,0.6)] focus-ring"
       >
-        {open ? <X size={22} /> : <Bot size={22} />}
+        {open ? <X size={20} className="sm:size-[22px]" /> : <Bot size={20} className="sm:size-[22px]" />}
       </motion.button>
 
       <AnimatePresence>
@@ -60,7 +60,7 @@ export default function ChatAssistant() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="panel-solid fixed bottom-24 right-6 z-[var(--z-ai-assistant)] flex h-[26rem] w-80 flex-col rounded-2xl"
+            className="panel-solid fixed bottom-18 right-3 left-3 sm:left-auto sm:right-6 sm:bottom-24 z-[var(--z-ai-assistant)] flex h-[26rem] max-h-[calc(100vh-6rem)] sm:w-80 flex-col rounded-2xl shadow-2xl"
             role="dialog"
             aria-modal="true"
             aria-label={t("ai.assistant")}

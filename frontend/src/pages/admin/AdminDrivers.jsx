@@ -183,7 +183,7 @@ export default function AdminDrivers() {
           {drivers.map((d) => (
             <GlassCard key={d.id} className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <p className="font-medium text-ink">{d.name}</p>
                   <span className="text-xs text-ink-faint">{d.driver_code}</span>
                   <StatusBadge status={d.status} />
@@ -197,12 +197,12 @@ export default function AdminDrivers() {
               <div className="flex flex-wrap items-center gap-2">
                 {d.status === "Approved" && (
                   <>
-                    <Select className="w-44" value={d.assigned_vehicle_id || ""} onChange={(e) => assign(d.id, e.target.value)}>
+                    <Select className="w-full sm:w-44" value={d.assigned_vehicle_id || ""} onChange={(e) => assign(d.id, e.target.value)}>
                       <option value="">{t("adminDrivers.unassignedVehicle")}</option>
                       {vehicles.map((v) => <option key={v.id} value={v.id}>{v.vehicle_no} ({v.vehicle_type})</option>)}
                     </Select>
                     {depots.length > 0 && (
-                      <Select className="w-40" value={d.depot_id || ""} onChange={(e) => assignDepot(d.id, e.target.value)}>
+                      <Select className="w-full sm:w-40" value={d.depot_id || ""} onChange={(e) => assignDepot(d.id, e.target.value)}>
                         <option value="">{t("adminDrivers.noDepot")}</option>
                         {depots.map((dep) => <option key={dep.id} value={dep.id}>{dep.name}</option>)}
                       </Select>

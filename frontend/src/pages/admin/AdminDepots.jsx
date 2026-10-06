@@ -42,7 +42,7 @@ export default function AdminDepots() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-ink-dim">
           {depots.length} {t("adminDepots.depot", { count: depots.length })} · {vehicles.filter((v) => !v.depot_id).length} {t("adminDepots.vehiclesAndDriversUnassigned", { driversCount: drivers.filter((d) => !d.depot_id).length })}
         </p>

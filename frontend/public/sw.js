@@ -22,7 +22,7 @@
 // value to 'Response'", which the browser reports as "The FetchEvent for
 // '<url>' resulted in a network error response". Bumped so browsers stuck
 // with the old, buggy worker are forced onto this fixed one.)
-const CACHE_NAME = "carbontrack-shell-v3";
+const CACHE_NAME = "carbontrack-shell-v4";
 const APP_SHELL = ["/", "/index.html", "/manifest.json", "/icon-192.png", "/icon-512.png"];
 const OFFLINE_FALLBACK = new Response(
   "<!doctype html><meta charset=utf-8><title>Offline</title>" +

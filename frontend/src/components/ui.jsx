@@ -198,17 +198,17 @@ export function StatCard({ label, value, unit, icon: Icon, accent = "cyan" }) {
   };
   const accentClass = accentMap[accent] || accentMap.cyan;
   return (
-    <GlassCard interactive className="p-5">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-ink-dim">{label}</p>
-          <p className="mt-2 font-display text-3xl font-semibold text-ink">
+    <GlassCard interactive className="p-4 sm:p-5">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-medium uppercase tracking-wide text-ink-dim break-words">{label}</p>
+          <p className="mt-2 font-display text-2xl sm:text-3xl font-semibold text-ink break-words">
             {value}
-            {unit && <span className="ml-1 text-base font-normal text-ink-dim">{unit}</span>}
+            {unit && <span className="ml-1 text-sm sm:text-base font-normal text-ink-dim">{unit}</span>}
           </p>
         </div>
         {Icon && (
-          <div className={`rounded-lg p-2 ${accentClass}`}>
+          <div className={`shrink-0 rounded-lg p-2 ${accentClass}`}>
             <Icon size={18} />
           </div>
         )}

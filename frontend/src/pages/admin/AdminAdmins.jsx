@@ -61,13 +61,13 @@ export default function AdminAdmins() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-ink-dim">{admins.length} {t("adminAdmins.adminAccountsCount")}</p>
         <Button variant="primary" onClick={() => setShowForm((s) => !s)}><Plus size={15} /> {t("adminAdmins.addAdmin")}</Button>
       </div>
 
       {showForm && (
-        <GlassCard strong className="mb-6 p-5">
+        <GlassCard strong className="mb-6 p-4 sm:p-5">
           <form onSubmit={addAdmin} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <Input label={t("adminAdmins.name")} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
             <Input label={t("adminAdmins.username")} value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} required />
@@ -84,22 +84,22 @@ export default function AdminAdmins() {
 
       <div className="space-y-3">
         {admins.map((a) => (
-          <GlassCard key={a.id} className="flex items-center justify-between p-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <p className="font-medium text-ink">{a.name}</p>
+          <GlassCard key={a.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="font-medium text-ink truncate">{a.name}</p>
                 <span className="text-xs text-ink-faint">{a.username}</span>
                 <Badge tone={a.role === "SuperAdmin" ? "indigo" : "neutral"}>{a.role === "SuperAdmin" ? t("adminAdmins.roleSuperAdmin") : t("adminAdmins.roleAdmin")}</Badge>
                 <Badge tone={a.status === "Active" ? "success" : "danger"}>{a.status === "Active" ? t("adminAdmins.statusActive") : t("adminAdmins.statusSuspended")}</Badge>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
               {a.role !== "SuperAdmin" && (
                 <>
                   <Button variant="ghost" onClick={() => toggleStatus(a)}>
                     {a.status === "Active" ? t("adminAdmins.suspend") : t("adminAdmins.reactivate")}
                   </Button>
-                  <button onClick={() => remove(a)} className="text-ink-faint hover:text-danger"><Trash2 size={16} /></button>
+                  <button onClick={() => remove(a)} className="p-1.5 text-ink-faint hover:text-danger"><Trash2 size={16} /></button>
                 </>
               )}
             </div>

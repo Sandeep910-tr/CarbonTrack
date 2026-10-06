@@ -38,17 +38,19 @@ export default function TripHistory() {
         )}
         {trips.map((tr) => (
           <GlassCard key={tr.id} className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm font-medium text-ink">{tr.source} → {tr.destination}</p>
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-ink truncate">{tr.source} → {tr.destination}</p>
               <p className="text-xs text-ink-faint">{tr.trip_code} · {tr.distance_km} km · {new Date(tr.created_at).toLocaleDateString()}</p>
             </div>
-            <div className="flex items-center gap-4 text-xs text-ink-dim">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-ink-dim">
               <span>{t("trip.fuel")} {tr.actual_fuel_l ?? tr.predicted_fuel_l} L</span>
               <span>CO2 {tr.actual_co2_kg ?? tr.predicted_co2_kg} kg</span>
               <span>₹{tr.actual_cost ?? tr.predicted_cost}</span>
-              <Badge tone={tr.status === "Completed" ? "success" : tr.status === "Ongoing" ? "warning" : "neutral"}>
-                {STATUS_KEY[tr.status] ? t(STATUS_KEY[tr.status]) : tr.status}
-              </Badge>
+              <span className="shrink-0">
+                <Badge tone={tr.status === "Completed" ? "success" : tr.status === "Ongoing" ? "warning" : "neutral"}>
+                  {STATUS_KEY[tr.status] ? t(STATUS_KEY[tr.status]) : tr.status}
+                </Badge>
+              </span>
             </div>
           </GlassCard>
         ))}

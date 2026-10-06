@@ -62,12 +62,12 @@ export default function AdminSettings() {
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
       <div className="space-y-6">
-        <GlassCard className="p-6">
+        <GlassCard className="p-4 sm:p-6">
           <h2 className="font-display text-base font-semibold text-ink">{t("adminSettings.systemSettings")}</h2>
           <form onSubmit={save} className="mt-5 space-y-4">
             <Input label={t("adminSettings.companyName")} value={settings.company_name}
                    onChange={(e) => update("company_name", e.target.value)} />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Input label={t("adminSettings.carbonBudgetTarget")} type="number" value={settings.carbon_budget_target_kg}
                      onChange={(e) => update("carbon_budget_target_kg", e.target.value)} />
               <Input label={t("adminSettings.fuelBudgetTarget")} type="number" value={settings.fuel_budget_target}
@@ -91,7 +91,7 @@ export default function AdminSettings() {
             <div className="space-y-2 pt-2">
               <p className="text-xs font-medium uppercase tracking-wide text-ink-dim">{t("adminSettings.evAssumptions")}</p>
               <p className="text-[11px] text-ink-faint">{t("adminSettings.evAssumptionsDesc")}</p>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Input label={t("adminSettings.iceVehiclePrice")} type="number" value={settings.ice_vehicle_price_inr}
                        onChange={(e) => update("ice_vehicle_price_inr", e.target.value)} />
                 <Input label={t("adminSettings.evVehiclePrice")} type="number" value={settings.ev_vehicle_price_inr}
@@ -117,7 +117,7 @@ export default function AdminSettings() {
         </GlassCard>
 
         {isSuperAdmin && (
-          <GlassCard className="p-6">
+          <GlassCard className="p-4 sm:p-6">
             <h2 className="font-display text-base font-semibold text-ink">{t("adminSettings.backupRestore")}</h2>
             <p className="mt-1 text-xs text-ink-dim">
               {t("adminSettings.backupRestoreDesc")}

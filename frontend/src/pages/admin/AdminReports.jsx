@@ -76,7 +76,7 @@ export default function AdminReports() {
 
         {/* ---- Export: same three functions/endpoints as before, presented
             as one grouped, labeled control instead of three loose buttons. ---- */}
-        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-1.5">
+        <div className="flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-1.5">
           <span className="hidden pl-2 text-xs font-medium uppercase tracking-wide text-ink-faint sm:inline">
             {t("adminReports.exportLabel")}
           </span>
@@ -214,7 +214,7 @@ function VehiclesTab() {
   useEffect(() => { api.get("/admin/reports/vehicles").then((r) => setRows(r.data)); }, []);
   return (
     <GlassCard className="overflow-x-auto p-0">
-      <table className="w-full text-left text-sm">
+      <table className="w-full text-left text-sm min-w-[700px]">
         <thead>
           <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-ink-faint">
             <th className="px-4 py-3 font-medium">{t("adminReports.colVehicle")}</th>
@@ -266,7 +266,7 @@ function DriversTab() {
   useEffect(() => { api.get("/admin/reports/drivers").then((r) => setRows(r.data)); }, []);
   return (
     <GlassCard className="overflow-x-auto p-0">
-      <table className="w-full text-left text-sm">
+      <table className="w-full text-left text-sm min-w-[550px]">
         <thead>
           <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-ink-faint">
             <th className="px-4 py-3 font-medium">{t("adminReports.colDriver")}</th>
@@ -357,15 +357,17 @@ function AnomaliesTab() {
       )}
       {rows !== null && rows.length === 0 && <EmptyState icon={ShieldCheck} message={t("adminReports.noAnomalies")} />}
       {rows && rows.map((r, i) => (
-        <GlassCard key={i} interactive className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-danger/15 p-2 text-danger"><AlertTriangle size={15} /></div>
-            <div>
-              <p className="text-sm text-ink">{r.trip_code} — {r.source} → {r.destination}</p>
+        <GlassCard key={i} interactive className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="rounded-lg bg-danger/15 p-2 text-danger shrink-0"><AlertTriangle size={15} /></div>
+            <div className="min-w-0">
+              <p className="text-sm text-ink truncate">{r.trip_code} — {r.source} → {r.destination}</p>
               <p className="text-xs text-ink-faint">{r.vehicle_type} · {t("adminReports.fleetAvg")} {r.fleet_avg_co2_kg} kg</p>
             </div>
           </div>
-          <Badge tone="danger">{r.co2_kg} kg · z={r.z_score}</Badge>
+          <span className="shrink-0 self-start sm:self-auto">
+            <Badge tone="danger">{r.co2_kg} kg · z={r.z_score}</Badge>
+          </span>
         </GlassCard>
       ))}
     </div>

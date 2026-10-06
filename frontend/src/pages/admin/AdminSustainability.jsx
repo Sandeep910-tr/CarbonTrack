@@ -71,7 +71,7 @@ export default function AdminSustainability() {
             <Gauge size={18} className="text-cyan" />
             <h3 className="text-sm font-semibold text-ink">{t("adminSustainability.operationalMetrics", "Operational Efficiency")}</h3>
           </div>
-          <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 sm:gap-y-4">
             <div className="flex justify-between items-center border-b border-white/5 pb-2">
               <span className="text-xs text-ink-dim">Total Distance</span>
               <span className="text-xs font-mono text-ink">{operational.total_distance_km} km</span>

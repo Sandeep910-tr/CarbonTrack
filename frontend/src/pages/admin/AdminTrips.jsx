@@ -19,7 +19,7 @@ export default function AdminTrips() {
   return (
     <>
       <GlassCard className="overflow-x-auto p-0">
-        <table className="w-full text-left text-sm">
+        <table className="w-full text-left text-sm min-w-[640px]">
           <thead>
             <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-ink-faint">
               <th className="px-4 py-3">{t("newTrip.tripLabel")}</th>
