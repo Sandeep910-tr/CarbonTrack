@@ -24,3 +24,4 @@ psycopg2-binary>=2.9.12
 pytest==8.3.3
 pytest-cov==5.0.0
 sendgrid
+psycopg[binary]
