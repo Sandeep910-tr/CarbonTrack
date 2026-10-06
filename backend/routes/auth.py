@@ -1,6 +1,6 @@
 import os
-import smtplib
-from email.mime.text import MIMEText
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from datetime import timedelta
 from flask import Blueprint, request, jsonify, current_app
 from werkzeug.utils import secure_filename
