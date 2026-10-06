@@ -54,28 +54,35 @@ OTP_REQUEST_COOLDOWN_SECONDS = 60
 
 
 def try_send_email(to_address, subject, body):
-    """Sends via SMTP if SMTP_HOST/SMTP_USER/SMTP_PASSWORD are set in .env.
-    Returns True if actually sent, False if it fell back to dev mode (no error raised)."""
-    host = os.getenv("SMTP_HOST")
-    user = os.getenv("SMTP_USER")
-    password = os.getenv("SMTP_PASSWORD")
-    port = int(os.getenv("SMTP_PORT", 587))
-    if not (host and user and password):
-        return False
-    try:
-        msg = MIMEText(body)
-        msg["Subject"] = subject
-        msg["From"] = user
-        msg["To"] = to_address
-        with smtplib.SMTP(host, port, timeout=10) as server:
-            server.starttls()
-            server.login(user, password)
-            server.sendmail(user, [to_address], msg.as_string())
-        return True
-    except Exception as e:
-        print(f"[SMTP] Failed to send email to {to_address}: {e}")
+    """Send email using Twilio SendGrid."""
+    api_key = os.getenv("SENDGRID_API_KEY")
+    from_email = os.getenv("SENDGRID_FROM_EMAIL")
+
+    if not api_key or not from_email:
+        print("[SendGrid] Missing SENDGRID_API_KEY or SENDGRID_FROM_EMAIL")
         return False
 
+    try:
+        message = Mail(
+            from_email=from_email,
+            to_emails=to_address,
+            subject=subject,
+            plain_text_content=body,
+        )
+
+        sg = SendGridAPIClient(api_key)
+        response = sg.send(message)
+
+        if response.status_code == 202:
+            print(f"[SendGrid] Email sent successfully to {to_address}")
+            return True
+
+        print(f"[SendGrid] Unexpected response: {response.status_code}")
+        return False
+
+    except Exception as e:
+        print(f"[SendGrid] Failed to send email to {to_address}: {e}")
+        return False
 
 # ---------------------------------------------------------------- LOGIN
 @auth_bp.route("/login", methods=["POST"])
